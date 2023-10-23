@@ -1,0 +1,9 @@
+time_surface_mode: 0
+output_fps: True
+use_polarity: False
+use_sim_time: True
+parallel_thread_number: 2
+median_blur_kernel_size: 0
+max_event_queue_length: 100
+max_event_queue_mat_length: 20
+decay_millisecond: 30.0

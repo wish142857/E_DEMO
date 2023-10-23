@@ -1,0 +1,25 @@
+<launch>
+  <!-- Time Surface (TS) generation -->
+  <node name="TimeSurface_left" pkg="e_demo" type="e_demo_time_surface" output="screen">
+    <remap from="events" to="/davis_left/events" />
+    <remap from="image" to="/davis_left/image_raw" />
+    <remap from="camera_info" to="/davis_left/camera_info" />
+    <remap from="time_surface" to="TS_left" />
+    <rosparam command="load" file="$(find e_demo)/cfg/time_surface_cfg.yaml" />
+  </node>
+
+  <node name="TimeSurface_right" pkg="e_demo" type="e_demo_time_surface" output="screen">
+    <remap from="events" to="/davis_right/events" />
+    <remap from="image" to="/davis_right/image_raw" />
+    <remap from="camera_info" to="/davis_right/camera_info" />
+    <remap from="time_surface" to="TS_right" />
+    <rosparam command="load" file="$(find e_demo)/cfg/time_surface_cfg.yaml" />
+  </node>
+
+  <!-- Synchronize both TS processing using an external timer -->
+  <node name="global_timer" pkg="rostopic" type="rostopic" args="pub -s -r 100 /sync std_msgs/Time 'now' " />
+
+  <!-- Visualization -->
+  <node pkg="rqt_gui" type="rqt_gui" name="rqt_gui"
+        args="--perspective-file $(find e_demo)/rqt/time_surface_rqt.perspective" />
+</launch>
